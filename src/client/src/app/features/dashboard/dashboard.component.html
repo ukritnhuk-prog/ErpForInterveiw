@@ -1,0 +1,29 @@
+<div class="page-heading">
+  <div><p class="eyebrow">PEOPLE & ORGANIZATION</p><h1>Dashboard</h1><p class="muted">A clear view of your people and departments.</p></div>
+  <a nz-button nzType="primary" routerLink="/employees" [queryParams]="{add: 'true'}">+ Add employee</a>
+</div>
+@if (error) { <div class="error-banner" role="alert">{{ error }} <button nz-button (click)="load()">Retry</button></div> }
+<nz-spin [nzSpinning]="loading">
+  <section class="stats-grid" aria-label="Organization totals">
+    <a class="stat-card" routerLink="/employees"><span class="stat-label">Total employees</span><strong>{{ error ? '—' : employees.length }}</strong><span class="muted">View employee directory →</span></a>
+    <a class="stat-card" routerLink="/departments"><span class="stat-label">Total departments</span><strong>{{ error ? '—' : departments.length }}</strong><span class="muted">Manage your organization →</span></a>
+    <div class="stat-card stat-note"><span class="stat-label">ERP DEMO</span><h2>People first.<br>Simply organized.</h2><span>Employee & Department Management</span></div>
+  </section>
+  <div class="dashboard-grid">
+    <section class="panel"><div class="panel-heading"><h2>Employees by department</h2><a routerLink="/departments">View all →</a></div>
+      @for (department of departments; track department.departmentId) {
+        <div class="breakdown-row"><div><span>{{ department.departmentName }}</span><strong>{{ department.employeeCount }}</strong></div>
+          <div class="bar-track"><div class="bar-fill" [style.width.%]="employees.length ? department.employeeCount / employees.length * 100 : 0"></div></div>
+        </div>
+      } @empty { <p class="empty-state">No departments to display.</p> }
+    </section>
+    <section class="panel"><div class="panel-heading"><h2>Recently joined</h2><a routerLink="/employees">View all →</a></div>
+      @for (employee of recent; track employee.employeeId) {
+        <div class="recent-row"><span class="initials">{{ employee.firstName.charAt(0) }}{{ employee.lastName.charAt(0) }}</span>
+          <div><strong>{{ employee.fullName }}</strong><small>{{ employee.departmentName }}</small></div>
+          <time>{{ employee.dateJoined | date:'dd MMM yyyy' }}</time>
+        </div>
+      } @empty { <p class="empty-state">No employees to display.</p> }
+    </section>
+  </div>
+</nz-spin>

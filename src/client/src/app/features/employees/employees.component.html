@@ -1,0 +1,70 @@
+<div class="page-heading"><div><p class="eyebrow">PEOPLE</p><h1>Employees</h1><p class="muted">Your people, their details, and where they belong.</p></div>
+  <button nz-button nzType="primary" (click)="add()">+ Add employee</button></div>
+@if (error) { <div class="error-banner" role="alert">{{ error }} <button nz-button (click)="load()">Retry</button></div> }
+<section class="panel table-panel">
+  <div class="panel-heading"><h2>Employee directory <span class="count-badge">{{ employees.length }}</span></h2></div>
+  <form class="filter-bar" (ngSubmit)="load()">
+    <input nz-input name="search" aria-label="Search employees" [(ngModel)]="search" placeholder="Search by name or department">
+    <select class="control" name="filterDepartment" aria-label="Filter by department" [(ngModel)]="filterDepartment">
+      <option [ngValue]="null">All departments</option>
+      @for (department of departments; track department.departmentId) { <option [ngValue]="department.departmentId">{{ department.departmentName }}</option> }
+    </select>
+    <button nz-button nzType="primary" type="submit" [nzLoading]="loading">Search</button><button nz-button type="button" (click)="resetSearch()">Reset</button>
+  </form>
+  <nz-table #table [nzData]="employees" [nzLoading]="loading" [nzPageSize]="8" [nzScroll]="{x: '1040px'}" nzSize="middle">
+    <thead><tr><th>ID</th><th>Name</th><th>Department</th><th>Gender</th><th>Date of birth</th><th>Date joined</th><th nzWidth="210px">Actions</th></tr></thead>
+    <tbody>@for (row of table.data; track row.employeeId) {
+      <tr><td class="muted">#{{ row.employeeId }}</td><td><strong>{{ row.fullName }}</strong></td><td><span class="department-tag">{{ row.departmentName }}</span></td>
+        <td>{{ row.gender }}</td><td class="date-cell">{{ row.dateOfBirth | date:'dd MMM yyyy' }}</td><td class="date-cell">{{ row.dateJoined | date:'dd MMM yyyy' }}</td>
+        <td class="actions"><button nz-button nzType="link" (click)="view(row)">View</button><button nz-button nzType="link" (click)="edit(row)">Edit</button>
+          <button nz-button nzType="link" nzDanger (click)="remove(row)">Delete</button></td></tr>
+    }</tbody>
+  </nz-table>
+</section>
+<nz-modal [nzVisible]="visible" [nzTitle]="editingId === null ? 'Add employee' : 'Edit employee'" [nzFooter]="formFooter"
+  [nzWidth]="640" [nzMaskClosable]="false" [nzClosable]="!saving" [nzKeyboard]="!saving" (nzOnCancel)="!saving && (visible = false)">
+  <ng-container *nzModalContent>
+    <form id="employee-form" [formGroup]="form" (ngSubmit)="save()" class="form-grid">
+      @if (formError) { <div class="error-banner full-width" role="alert">{{ formError }}</div> }
+      <div class="field"><label for="first-name">First name <span class="required">*</span></label>
+        <input nz-input id="first-name" formControlName="firstName" maxlength="100" autocomplete="given-name">
+        @if (form.controls.firstName.touched && form.controls.firstName.invalid) { <small class="field-error">First name is required (up to 100 characters).</small> }</div>
+      <div class="field"><label for="last-name">Last name <span class="required">*</span></label>
+        <input nz-input id="last-name" formControlName="lastName" maxlength="100" autocomplete="family-name">
+        @if (form.controls.lastName.touched && form.controls.lastName.invalid) { <small class="field-error">Last name is required (up to 100 characters).</small> }</div>
+      <div class="field"><label for="employee-department">Department <span class="required">*</span></label>
+        <select class="control" id="employee-department" formControlName="departmentId">
+          <option [ngValue]="0">Select department</option>
+          @for (department of departments; track department.departmentId) { <option [ngValue]="department.departmentId">{{ department.departmentName }}</option> }
+        </select>
+        @if (form.controls.departmentId.touched && form.controls.departmentId.invalid) { <small class="field-error">Select a department.</small> }
+        @if (!departments.length) { <small class="muted">Create a department first, or retry loading the directory.</small> }</div>
+      <div class="field"><label for="gender">Gender <span class="required">*</span></label>
+        <select class="control" id="gender" formControlName="gender"><option value="">Select gender</option>
+          @for (gender of genders; track gender) { <option [value]="gender">{{ gender }}</option> }</select>
+        @if (form.controls.gender.touched && form.controls.gender.invalid) { <small class="field-error">Select a gender.</small> }</div>
+      <div class="field"><label for="birth-date">Date of birth <span class="required">*</span></label>
+        <input nz-input type="date" id="birth-date" formControlName="dateOfBirth" min="0001-01-02" [max]="today">
+        @if (form.controls.dateOfBirth.touched && form.controls.dateOfBirth.invalid) { <small class="field-error">Date of birth is required.</small> }</div>
+      <div class="field"><label for="joined-date">Date joined <span class="required">*</span></label>
+        <input nz-input type="date" id="joined-date" formControlName="dateJoined" [max]="today">
+        @if (form.controls.dateJoined.touched && form.controls.dateJoined.invalid) { <small class="field-error">Date joined is required.</small> }</div>
+      @if (form.touched && form.hasError('futureDate')) { <small class="field-error full-width">Dates must not be in the future.</small> }
+      @if (form.touched && form.hasError('dateOrder')) { <small class="field-error full-width">Date joined must be later than date of birth.</small> }
+      <div class="field full-width"><label for="employee-address">Address <span class="muted">(optional)</span></label>
+        <textarea nz-input id="employee-address" formControlName="employeeAddress" maxlength="500" rows="2" autocomplete="street-address"></textarea></div>
+      <p class="form-note full-width">Photo is optional. Photo upload is not enabled in this demo.</p>
+    </form>
+  </ng-container>
+</nz-modal>
+<ng-template #formFooter><button nz-button [disabled]="saving" (click)="visible = false">Cancel</button>
+  <button nz-button nzType="primary" [nzLoading]="saving" type="submit" form="employee-form">Save employee</button></ng-template>
+<nz-modal [nzVisible]="detail !== null" nzTitle="Employee details" [nzFooter]="null" (nzOnCancel)="detail = null">
+  <ng-container *nzModalContent>@if (detail; as row) {
+    <div class="profile-heading"><span class="initials large">{{ row.firstName.charAt(0) }}{{ row.lastName.charAt(0) }}</span>
+      <div><p class="eyebrow">EMPLOYEE #{{ row.employeeId }}</p><h2>{{ row.fullName }}</h2><span class="department-tag">{{ row.departmentName }}</span></div></div>
+    <dl class="detail-grid"><dt>Gender</dt><dd>{{ row.gender }}</dd><dt>Date of birth</dt><dd>{{ row.dateOfBirth | date:'dd MMM yyyy' }}</dd>
+      <dt>Date joined</dt><dd>{{ row.dateJoined | date:'dd MMM yyyy' }}</dd><dt>Address</dt><dd>{{ row.employeeAddress || 'Not provided' }}</dd>
+      <dt>Photo</dt><dd>{{ row.photo || 'Not provided (optional)' }}</dd></dl>
+  }</ng-container>
+</nz-modal>

@@ -1,0 +1,37 @@
+<div class="page-heading"><div><p class="eyebrow">ORGANIZATION</p><h1>Departments</h1><p class="muted">Manage teams and the people assigned to them.</p></div>
+  <button nz-button nzType="primary" (click)="add()">+ Add department</button></div>
+@if (error) { <div class="error-banner" role="alert">{{ error }} <button nz-button (click)="load()">Retry</button></div> }
+<section class="panel table-panel">
+  <div class="panel-heading"><h2>Department directory <span class="count-badge">{{ departments.length }}</span></h2></div>
+  <nz-table #table [nzData]="departments" [nzLoading]="loading" [nzPageSize]="8" [nzScroll]="{x: '760px'}" nzSize="middle">
+    <thead><tr><th>ID</th><th>Department name</th><th>Address</th><th>Employees</th><th nzWidth="220px">Actions</th></tr></thead>
+    <tbody>@for (row of table.data; track row.departmentId) {
+      <tr><td class="muted">#{{ row.departmentId }}</td><td><strong>{{ row.departmentName }}</strong></td><td>{{ row.departmentAddress || '—' }}</td>
+        <td><span class="count-badge">{{ row.employeeCount }}</span></td><td class="actions">
+          <button nz-button nzType="link" (click)="view(row)">View</button><button nz-button nzType="link" (click)="edit(row)">Edit</button>
+          <button nz-button nzType="link" nzDanger (click)="remove(row)">Delete</button></td></tr>
+    }</tbody>
+  </nz-table>
+</section>
+<nz-modal [nzVisible]="visible" [nzTitle]="editingId === null ? 'Add department' : 'Edit department'" [nzFooter]="formFooter"
+  [nzMaskClosable]="false" [nzClosable]="!saving" [nzKeyboard]="!saving" (nzOnCancel)="!saving && (visible = false)">
+  <ng-container *nzModalContent>
+    <form id="department-form" [formGroup]="form" (ngSubmit)="save()" class="form-grid">
+      @if (formError) { <div class="error-banner full-width" role="alert">{{ formError }}</div> }
+      <div class="field full-width"><label for="department-name">Department name <span class="required">*</span></label>
+        <input nz-input id="department-name" formControlName="departmentName" maxlength="200" placeholder="e.g. Information Technology">
+        @if (form.controls.departmentName.touched && form.controls.departmentName.invalid) { <small class="field-error">Enter a department name (up to 200 characters).</small> }
+      </div>
+      <div class="field full-width"><label for="department-address">Department address <span class="muted">(optional)</span></label>
+        <textarea nz-input id="department-address" formControlName="departmentAddress" maxlength="500" rows="3" placeholder="e.g. Head Office"></textarea></div>
+    </form>
+  </ng-container>
+</nz-modal>
+<ng-template #formFooter><button nz-button [disabled]="saving" (click)="visible = false">Cancel</button>
+  <button nz-button nzType="primary" [nzLoading]="saving" type="submit" form="department-form">Save department</button></ng-template>
+<nz-modal [nzVisible]="detail !== null" nzTitle="Department details" [nzFooter]="null" (nzOnCancel)="detail = null">
+  <ng-container *nzModalContent>@if (detail; as row) {
+    <p class="eyebrow">DEPARTMENT #{{ row.departmentId }}</p><h2>{{ row.departmentName }}</h2>
+    <dl class="detail-grid"><dt>Address</dt><dd>{{ row.departmentAddress || 'Not provided' }}</dd><dt>Employees</dt><dd>{{ row.employeeCount }}</dd></dl>
+  }</ng-container>
+</nz-modal>

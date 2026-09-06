@@ -1,0 +1,35 @@
+# Build output
+bin/
+obj/
+out/
+publish/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / ReSharper
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# ASP.NET / .NET local settings
+appsettings.Local.json
+appsettings.*.Local.json
+*.db
+*.db-shm
+*.db-wal
+
+# Logs and diagnostics
+logs/
+*.log
+TestResults/
+coverage/
+*.trx
+
+# OS generated files
+.DS_Store
+Thumbs.db
