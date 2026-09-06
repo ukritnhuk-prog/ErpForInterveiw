@@ -1,9 +1,12 @@
 @import "ng-zorro-antd/ng-zorro-antd.min.css";
+@import "@fontsource/ibm-plex-sans-thai/400.css";
+@import "@fontsource/ibm-plex-sans-thai/500.css";
+@import "@fontsource/ibm-plex-sans-thai/600.css";
 
 :root { --green: #176349; --ink: #183b30; --muted: #677b73; --line: #e4ebe7; }
 * { box-sizing: border-box; }
 html, body { min-height: 100%; margin: 0; }
-body { background: #f5f7f5; color: var(--ink); font-family: 'Segoe UI', Arial, sans-serif; }
+body { background: #f5f7f5; color: var(--ink); font-family: 'IBM Plex Sans Thai', 'Segoe UI', Arial, sans-serif; }
 button, input, select, textarea { font: inherit; }
 a { color: var(--green); }
 h1, h2, p { margin-top: 0; }
@@ -20,6 +23,7 @@ nav { display: grid; gap: 5px; }
 nav a { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border-radius: 6px; color: #d4e2da; font-size: 14px; }
 nav a:hover, nav a.active { background: #2d5945; color: white; }
 nav a span { width: 20px; text-align: center; font-size: 20px; line-height: 1; }
+nav a .nav-icon svg { display: block; width: 18px; height: 18px; margin: auto; }
 nav a.sub-nav { padding: 5px 14px 10px 46px; font-size: 12px; color: #b0ccbb; }
 .sidebar-note { margin-top: auto; padding: 45px 10px 0; font-size: 11px; color: #c1d3c8; }
 .sidebar-note small { display: block; padding-left: 14px; margin-top: 6px; color: #94b6a3; }
@@ -108,6 +112,7 @@ footer { padding: 20px 38px; color: var(--muted); font-size: 11px; border-top: 1
   nav { display: flex; margin-top: 18px; gap: 5px; }
   nav a { padding: 9px; flex: 1; justify-content: center; gap: 5px; font-size: 12px; }
   nav a span { font-size: 16px; }
+  nav a .nav-icon svg { width: 16px; height: 16px; }
   .topbar { min-height: 55px; padding: 12px 18px; font-size: 11px; }
   .demo-pill { font-size: 8px; padding: 5px 7px; }
   .main-content { padding: 24px 16px; }
