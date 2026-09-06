@@ -1,5 +1,10 @@
 using Application.Common.Models;
 using Application.Departments;
+using Application.Departments.Commands.CreateDepartment;
+using Application.Departments.Commands.DeleteDepartment;
+using Application.Departments.Commands.UpdateDepartment;
+using Application.Departments.Queries.GetDepartment;
+using Application.Departments.Queries.GetDepartments;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +25,7 @@ public class DepartmentsController(ISender sender, ILogger<DepartmentsController
     [HttpPost]
     public async Task<ActionResult<Response<DepartmentDto>>> Create(DepartmentRequest request, CancellationToken cancellationToken)
     {
-        var result = await sender.Send(new SaveDepartmentCommand(null, request), cancellationToken);
+        var result = await sender.Send(new CreateDepartmentCommand(request), cancellationToken);
         logger.LogInformation("Department {Id} created", result.DepartmentId);
         return CreatedAtAction(nameof(GetById), new { id = result.DepartmentId }, Response<DepartmentDto>.Success(result));
     }
@@ -28,7 +33,7 @@ public class DepartmentsController(ISender sender, ILogger<DepartmentsController
     [HttpPut("{id:int}")]
     public async Task<ActionResult<Response<DepartmentDto>>> Update(int id, DepartmentRequest request, CancellationToken cancellationToken)
     {
-        var result = await sender.Send(new SaveDepartmentCommand(id, request), cancellationToken);
+        var result = await sender.Send(new UpdateDepartmentCommand(id, request), cancellationToken);
         logger.LogInformation("Department {Id} updated", id);
         return Ok(Response<DepartmentDto>.Success(result));
     }

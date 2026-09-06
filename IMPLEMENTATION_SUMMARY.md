@@ -4,7 +4,7 @@
 
 ## ผลลัพธ์
 
-ปรับโปรเจกต์เดิมเป็น Employee/Department Management ครบ CRUD พร้อม Dashboard และ REST API ตาม schema ที่ผู้ใช้แนบ โดยคง ASP.NET Core .NET 8, EF Core, MediatR/repository, Angular 20 และ ng-zorro ใช้ SQL Server LocalDB โดยตรงและนำ Docker ออก
+ปรับโปรเจกต์เดิมเป็น Employee/Department Management ครบ CRUD พร้อม Dashboard และ REST API ตาม schema ที่ผู้ใช้แนบ โดยคง ASP.NET Core .NET 8, EF Core, MediatR CQRS, Angular 20 และ ng-zorro และใช้ SQL Server LocalDB โดยตรง
 
 ## Database changes
 
@@ -36,7 +36,7 @@
 
 ## Reuse and cleanup decisions
 
-นำแนวทาง async projection, repository, DI, MediatR, response wrapper, Angular forms และ HttpClient เดิมมาใช้ เปลี่ยน business entities/features ที่เกี่ยวกับ Post/Comment ออก ไม่เพิ่มระบบ messaging/cache/microservices
+ใช้ async EF projection, constructor DI, MediatR command/query handlers, `IApplicationDbContext`, response wrapper, Angular forms และ HttpClient เปลี่ยน business entities/features ที่เกี่ยวกับ Post/Comment ออก ไม่เพิ่มระบบ messaging/cache/microservices
 
 ชื่อทางเทคนิคของ layers คงเดิม เปลี่ยน solution เป็น `ERP.Demo.sln` และเปลี่ยนชื่อ frontend/display นำ packages ของ infrastructure ออกจาก Domain และนำ mapping/validation packages ที่ไม่ได้ใช้แล้วออก
 
@@ -150,7 +150,6 @@ Flow: Dashboard → เพิ่ม/แก้ไขแผนก → เพิ่
 - `src/client/src/app/features/posts/post-detail/post-detail.component.html`
 - `src/client/src/app/features/posts/post-detail/post-detail.component.scss`
 - `src/client/src/app/features/posts/post-detail/post-detail.component.ts`
-- `src/server/.dockerignore`
 - `src/server/Application/Comments/Commands/CreateComment/CreateCommentCommand.cs`
 - `src/server/Application/Comments/Commands/CreateComment/CreateCommentCommandHandler.cs`
 - `src/server/Application/Comments/Commands/CreateComment/CreateCommentResult.cs`
@@ -178,7 +177,6 @@ Flow: Dashboard → เพิ่ม/แก้ไขแผนก → เพิ่
 - `src/server/Application/Posts/Queries/GetPosts/GetPostsQuery.cs`
 - `src/server/Application/Posts/Queries/GetPosts/GetPostsQueryHandler.cs`
 - `src/server/Application/Posts/Queries/GetPosts/GetPostsResult.cs`
-- `src/server/Dockerfile`
 - `src/server/Domain/Entities/Comment.cs`
 - `src/server/Domain/Entities/Post.cs`
 - `src/server/Domain/Model/CommentResponse.cs`
@@ -192,7 +190,5 @@ Flow: Dashboard → เพิ่ม/แก้ไขแผนก → เพิ่
 - `src/server/WebAPI/Controllers/WeatherForecastController.cs`
 - `src/server/WebAPI/Infrastructure/HealthChecks/SampleHealthCheck.cs`
 - `src/server/WebAPI/WeatherForecast.cs`
-- `src/server/docker-compose.dcproj`
-- `src/server/docker-compose.yml`
 - `webapi.err.log`
 - `webapi.out.log`

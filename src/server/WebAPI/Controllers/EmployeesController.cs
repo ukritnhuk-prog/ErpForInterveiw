@@ -1,5 +1,10 @@
 using Application.Common.Models;
 using Application.Employees;
+using Application.Employees.Commands.CreateEmployee;
+using Application.Employees.Commands.DeleteEmployee;
+using Application.Employees.Commands.UpdateEmployee;
+using Application.Employees.Queries.GetEmployee;
+using Application.Employees.Queries.GetEmployees;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +25,7 @@ public class EmployeesController(ISender sender, ILogger<EmployeesController> lo
     [HttpPost]
     public async Task<ActionResult<Response<EmployeeDto>>> Create(EmployeeRequest request, CancellationToken cancellationToken)
     {
-        var result = await sender.Send(new SaveEmployeeCommand(null, request), cancellationToken);
+        var result = await sender.Send(new CreateEmployeeCommand(request), cancellationToken);
         logger.LogInformation("Employee {Id} created", result.EmployeeId);
         return CreatedAtAction(nameof(GetById), new { id = result.EmployeeId }, Response<EmployeeDto>.Success(result));
     }
@@ -28,7 +33,7 @@ public class EmployeesController(ISender sender, ILogger<EmployeesController> lo
     [HttpPut("{id:int}")]
     public async Task<ActionResult<Response<EmployeeDto>>> Update(int id, EmployeeRequest request, CancellationToken cancellationToken)
     {
-        var result = await sender.Send(new SaveEmployeeCommand(id, request), cancellationToken);
+        var result = await sender.Send(new UpdateEmployeeCommand(id, request), cancellationToken);
         logger.LogInformation("Employee {Id} updated", id);
         return Ok(Response<EmployeeDto>.Success(result));
     }

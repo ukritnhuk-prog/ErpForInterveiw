@@ -18,18 +18,18 @@ A simple ERP-style Employee and Department Management system built as a technica
 - ASP.NET Core Web API / C# / .NET 8.
 - Entity Framework Core 8 with Microsoft SQL Server.
 - Angular 20, TypeScript, RxJS, ng-zorro-antd and reactive forms.
-- Existing layered structure and MediatR/repository pattern retained:
+- CQRS requests and handlers are separated by use case, with MediatR and an application DbContext abstraction:
 
 ```text
 Angular HttpClient
   → REST Controllers
   → Application commands / queries (MediatR)
-  → Repository interfaces
-  → Infrastructure repositories / EF Core
+  → Application request handlers / IApplicationDbContext
+  → Infrastructure ApplicationDbContext / EF Core
   → SQL Server
 ```
 
-`src/server/ERP.Demo.sln` contains Domain, Application, Infrastructure and WebAPI. Domain has no infrastructure package dependencies. Existing async/projection, DI and response-wrapper conventions are reused. Routes load frontend pages on demand.
+`src/server/ERP.Demo.sln` contains Domain, Application, Infrastructure and WebAPI. Domain has no infrastructure package dependencies. Each command/query has its own handler; Infrastructure implements the DbContext abstraction declared by Application. Existing async/projection, DI and response-wrapper conventions are reused. Routes load frontend pages on demand.
 
 ## Requirements
 
@@ -37,8 +37,6 @@ Angular HttpClient
 - Node.js compatible with Angular 20 (for example Node 22.12+), and npm.
 - SQL Server LocalDB on Windows, or an accessible SQL Server Developer/Express instance.
 - Google Chrome is needed only for the included headless UI tests.
-
-Docker is not used. Dockerfile, Compose files, Compose solution project and Docker launch profile have been removed.
 
 ## Run locally — SQL Server LocalDB
 
@@ -226,7 +224,7 @@ Detailed progress and verified results: [PROJECT_CHECKLIST.md](PROJECT_CHECKLIST
 4. Show department name in the list; search, edit and open employee details.
 5. Try deleting the occupied department and explain the validation and FK.
 6. Delete the employee, then delete the now-empty department.
-7. Show Swagger, database columns, DI, async repository queries and the existing structure reused.
+7. Show Swagger, database columns, constructor DI, CQRS handlers and async EF queries through `IApplicationDbContext`.
 
 ## Scope and Git
 
@@ -234,4 +232,4 @@ Photo upload and authentication are not implemented. Pagination is in the browse
 
 `origin` is configured to `https://github.com/ukritnhuk-prog/ErpForInterveiw.git`. This copied project was reinitialized on the `main` branch so the previous project's commits are not part of this repository. A recoverable copy of the previous Git metadata is stored outside the project directory at `outside the project workspace`.
 
-Original brief: [ERP_REQUIREMENTS.md](ERP_REQUIREMENTS.md). The later instruction to remove Docker and use SQL Server directly takes precedence over the original reuse guidance.
+Original brief: [ERP_REQUIREMENTS.md](ERP_REQUIREMENTS.md).

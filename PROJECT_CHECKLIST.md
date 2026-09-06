@@ -2,7 +2,7 @@
 
 อัปเดต: 2026-09-06
 
-สถานะ: **พัฒนาและทดสอบฟังก์ชันหลักเสร็จแล้ว** ใช้ SQL Server โดยตรง ไม่มี Docker ในโปรเจกต์ และเปลี่ยน Git origin แล้ว
+สถานะ: **พัฒนาและทดสอบฟังก์ชันหลักเสร็จแล้ว** ใช้ SQL Server โดยตรง และเปลี่ยน Git origin แล้ว
 
 - [โจทย์ต้นฉบับ](ERP_REQUIREMENTS.md)
 - [วิธีติดตั้งและรัน / API / Demo flow](README.md)
@@ -15,16 +15,13 @@
 - [x] ใช้โปรเจกต์เดิมเป็นฐาน คง ASP.NET Core, Angular และสถาปัตยกรรมเดิมที่จำเป็น
 - [x] Employee/Department ตามภาพ: ชื่อคอลัมน์ SQL, identity PK และ Department FK
 - [x] ใช้ Microsoft SQL Server โดยตรง; ตั้งค่าเริ่มต้นเป็น LocalDB ที่ติดตั้งในเครื่อง
-- [x] นำ Dockerfile, Compose, Compose project และ Docker launch profile ออก
 - [x] เปลี่ยน origin เป็น `https://github.com/ukritnhuk-prog/ErpForInterveiw.git`
 - [x] เก็บโจทย์ แผนงาน ผลทดสอบ และ checklist เป็น Markdown
-
-คำขอภายหลังที่ให้เอา Docker ออก มีผลเหนือคำแนะนำ reuse Docker เดิมในโจทย์ต้นฉบับ
 
 ## 1. ตรวจโครงการและวางแผน reuse
 
 - [x] สำรวจ server/client, project files, dependencies และการตั้งค่า
-- [x] ตรวจ controller → MediatR → repository → EF Core
+- [x] ตรวจ controller → MediatR request/handler → IApplicationDbContext → EF Core
 - [x] ตรวจ DbContext, DTO/response wrapper, DI และ validation เดิม
 - [x] ตรวจ Angular components, reactive forms, HttpClient และ ng-zorro
 - [x] ตรวจ auth/upload: ไม่พบระบบ login หรือ upload ที่ต้อง reuse
@@ -35,7 +32,7 @@
 ## 2. โครงสร้างและ Database
 
 - [x] คง Domain / Application / Infrastructure / WebAPI
-- [x] คง MediatR commands/queries, repository interfaces และ response envelope
+- [x] แยก MediatR command/query และ handler ต่อ use case, ใช้ IApplicationDbContext และคง response envelope
 - [x] ใช้ DataAnnotations และ IValidatableObject; นำ AutoMapper/FluentValidation ที่ไม่ใช้แล้วออก
 - [x] Domain ไม่มี package dependencies ของ infrastructure
 - [x] เพิ่ม Department และ Employee พร้อม navigation properties
@@ -59,7 +56,7 @@
 - [x] Required/whitespace/max length validation
 - [x] Unknown IDs คืน 404
 - [x] ป้องกันลบแผนกที่มีพนักงาน พร้อมข้อความอ่านเข้าใจ
-- [x] DTO, handler, repository และ DI ครบ
+- [x] DTO, command/query, handler, DbContext abstraction และ DI ครบ
 
 ## 4. Employee Backend
 
@@ -77,7 +74,7 @@
 - [x] Filter ตาม departmentId
 - [x] Async EF calls, cancellation token, AsNoTracking และ projection/join
 - [x] ไม่เรียก query หาแผนกแยกทีละ employee
-- [x] DTO, handler, repository และ DI ครบ
+- [x] DTO, command/query, handler, DbContext abstraction และ DI ครบ
 
 ## 5. Frontend
 
@@ -171,7 +168,6 @@ Git history เดิมไม่อยู่ใน repository นี้แล�
 | --- | --- |
 | 2026-09-06 | อ่านโจทย์ สำรวจโครงการ และสร้าง requirement/checklist ฉบับแรก |
 | 2026-09-06 | ผู้ใช้ให้ลงมือพัฒนาและระบุ repository ใหม่ |
-| 2026-09-06 | รับข้อกำหนดเพิ่มเติม: SQL Server โดยตรงและเอา Docker ออก |
 | 2026-09-06 | ทำ models/migration/seed, backend CRUD, frontend CRUD/dashboard, config และ cleanup |
 | 2026-09-06 | ทดสอบ API/SQL/UI จริง, อัปเดต Angular patches และตรวจ build/ภาพหน้าจอ |
 | 2026-09-06 | อัปเดต README, checklist และสรุปไฟล์ส่งมอบ |
