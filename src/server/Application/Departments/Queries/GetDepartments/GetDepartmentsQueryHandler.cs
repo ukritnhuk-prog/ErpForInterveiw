@@ -1,10 +1,11 @@
 using Application.Common.Interfaces;
+using Application.Departments.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Departments.Queries.GetDepartments;
 
-public sealed class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, List<DepartmentDto>>
+public sealed class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQuery, List<DepartmentResponse>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -13,9 +14,9 @@ public sealed class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQ
         _context = context;
     }
 
-    public Task<List<DepartmentDto>> Handle(
+    public Task<List<DepartmentResponse>> Handle(
         GetDepartmentsQuery request,
         CancellationToken cancellationToken) =>
-        DepartmentProjection.ToDto(_context.Departments.AsNoTracking().OrderBy(department => department.DepartmentName))
+        DepartmentProjection.ToResponse(_context.Departments.AsNoTracking().OrderBy(department => department.DepartmentName))
             .ToListAsync(cancellationToken);
 }

@@ -1,11 +1,12 @@
 using Application.Common.Interfaces;
+using Application.Departments.Models;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Departments.Commands.CreateDepartment;
 
-public sealed class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand, DepartmentDto>
+public sealed class CreateDepartmentCommandHandler : IRequestHandler<CreateDepartmentCommand, DepartmentResponse>
 {
     private readonly IApplicationDbContext _context;
 
@@ -14,7 +15,7 @@ public sealed class CreateDepartmentCommandHandler : IRequestHandler<CreateDepar
         _context = context;
     }
 
-    public async Task<DepartmentDto> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
+    public async Task<DepartmentResponse> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
     {
         DepartmentRequestValidator.Validate(request.Data);
 
@@ -29,7 +30,7 @@ public sealed class CreateDepartmentCommandHandler : IRequestHandler<CreateDepar
         _context.Departments.Add(department);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return await DepartmentProjection.ToDto(
+        return await DepartmentProjection.ToResponse(
                 _context.Departments.AsNoTracking().Where(item => item.DepartmentId == department.DepartmentId))
             .SingleAsync(cancellationToken);
     }

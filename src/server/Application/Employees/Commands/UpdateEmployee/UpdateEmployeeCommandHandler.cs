@@ -1,11 +1,12 @@
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Application.Employees.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Employees.Commands.UpdateEmployee;
 
-public sealed class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, EmployeeDto>
+public sealed class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand, EmployeeResponse>
 {
     private readonly IApplicationDbContext _context;
 
@@ -14,7 +15,7 @@ public sealed class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmploye
         _context = context;
     }
 
-    public async Task<EmployeeDto> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<EmployeeResponse> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
     {
         EmployeeRequestValidator.Validate(request.Data);
 
@@ -39,7 +40,7 @@ public sealed class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmploye
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return await EmployeeProjection.ToDto(
+        return await EmployeeProjection.ToResponse(
                 _context.Employees.AsNoTracking().Where(item => item.EmployeeId == employee.EmployeeId))
             .SingleAsync(cancellationToken);
     }

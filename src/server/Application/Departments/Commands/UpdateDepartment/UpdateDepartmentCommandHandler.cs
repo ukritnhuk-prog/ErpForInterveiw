@@ -1,10 +1,11 @@
 using Application.Common.Interfaces;
+using Application.Departments.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Departments.Commands.UpdateDepartment;
 
-public sealed class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCommand, DepartmentDto>
+public sealed class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepartmentCommand, DepartmentResponse>
 {
     private readonly IApplicationDbContext _context;
 
@@ -13,7 +14,7 @@ public sealed class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepar
         _context = context;
     }
 
-    public async Task<DepartmentDto> Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
+    public async Task<DepartmentResponse> Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
     {
         DepartmentRequestValidator.Validate(request.Data);
 
@@ -28,7 +29,7 @@ public sealed class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepar
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return await DepartmentProjection.ToDto(
+        return await DepartmentProjection.ToResponse(
                 _context.Departments.AsNoTracking().Where(item => item.DepartmentId == department.DepartmentId))
             .SingleAsync(cancellationToken);
     }

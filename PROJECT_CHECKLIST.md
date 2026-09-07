@@ -175,5 +175,6 @@ Git history เดิมไม่อยู่ใน repository นี้แล�
 | 2026-09-06 | Reinitialize Git บน `main` เพื่อเอา commit ของโปรเจกต์ต้นฉบับออก และตั้ง origin ไป repository ใหม่ |
 | 2026-09-07 | เปลี่ยน branding ทั้งระบบเป็น `ERP Demo` รวมถึง solution, package และฐานข้อมูล เพื่อไม่ใช้ชื่อบริษัทจริง |
 | 2026-09-07 | ย้าย validation ออกจาก request model ไปเป็น Employee/Department validator และทดสอบ API ครบ 46 checks |
+| 2026-09-07 | จัด request model ไว้ใต้ Commands, ใช้ Query เป็น read request และแยก Employee/Department response ไว้ใต้ Models |
 
 เปิด demo: http://localhost:4200 — Swagger: http://localhost:5028/swagger

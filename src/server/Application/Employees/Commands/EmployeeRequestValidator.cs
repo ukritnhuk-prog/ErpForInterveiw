@@ -1,6 +1,6 @@
 using Application.Common.Exceptions;
 
-namespace Application.Employees;
+namespace Application.Employees.Commands;
 
 public static class EmployeeRequestValidator
 {

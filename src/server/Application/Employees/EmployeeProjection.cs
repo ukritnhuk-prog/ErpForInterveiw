@@ -1,11 +1,12 @@
 using Domain.Entities;
+using Application.Employees.Models;
 
 namespace Application.Employees;
 
 internal static class EmployeeProjection
 {
-    public static IQueryable<EmployeeDto> ToDto(IQueryable<Employee> query) =>
-        query.Select(employee => new EmployeeDto(
+    public static IQueryable<EmployeeResponse> ToResponse(IQueryable<Employee> query) =>
+        query.Select(employee => new EmployeeResponse(
             employee.EmployeeId,
             employee.DepartmentId,
             employee.Department.DepartmentName,

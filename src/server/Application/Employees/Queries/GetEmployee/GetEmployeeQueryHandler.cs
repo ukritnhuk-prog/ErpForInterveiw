@@ -1,10 +1,11 @@
 using Application.Common.Interfaces;
+using Application.Employees.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Employees.Queries.GetEmployee;
 
-public sealed class GetEmployeeQueryHandler : IRequestHandler<GetEmployeeQuery, EmployeeDto>
+public sealed class GetEmployeeQueryHandler : IRequestHandler<GetEmployeeQuery, EmployeeResponse>
 {
     private readonly IApplicationDbContext _context;
 
@@ -13,8 +14,8 @@ public sealed class GetEmployeeQueryHandler : IRequestHandler<GetEmployeeQuery, 
         _context = context;
     }
 
-    public async Task<EmployeeDto> Handle(GetEmployeeQuery request, CancellationToken cancellationToken) =>
-        await EmployeeProjection.ToDto(
+    public async Task<EmployeeResponse> Handle(GetEmployeeQuery request, CancellationToken cancellationToken) =>
+        await EmployeeProjection.ToResponse(
                 _context.Employees.AsNoTracking().Where(employee => employee.EmployeeId == request.Id))
             .SingleOrDefaultAsync(cancellationToken)
         ?? throw new KeyNotFoundException("Employee not found.");

@@ -1,11 +1,12 @@
 using Application.Common.Interfaces;
+using Application.Employees.Models;
 using Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Employees.Queries.GetEmployees;
 
-public sealed class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, List<EmployeeDto>>
+public sealed class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, List<EmployeeResponse>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -14,7 +15,7 @@ public sealed class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery
         _context = context;
     }
 
-    public Task<List<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
+    public Task<List<EmployeeResponse>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         IQueryable<Employee> query = _context.Employees.AsNoTracking();
 
@@ -36,6 +37,6 @@ public sealed class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery
             .ThenBy(employee => employee.LastName)
             .ThenBy(employee => employee.EmployeeId);
 
-        return EmployeeProjection.ToDto(query).ToListAsync(cancellationToken);
+        return EmployeeProjection.ToResponse(query).ToListAsync(cancellationToken);
     }
 }

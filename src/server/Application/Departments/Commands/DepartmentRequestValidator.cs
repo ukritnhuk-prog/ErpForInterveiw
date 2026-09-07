@@ -1,6 +1,6 @@
 using Application.Common.Exceptions;
 
-namespace Application.Departments;
+namespace Application.Departments.Commands;
 
 public static class DepartmentRequestValidator
 {
