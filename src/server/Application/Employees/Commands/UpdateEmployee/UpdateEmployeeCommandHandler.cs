@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +16,8 @@ public sealed class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmploye
 
     public async Task<EmployeeDto> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
     {
+        EmployeeRequestValidator.Validate(request.Data);
+
         var employee = await _context.Employees
             .SingleOrDefaultAsync(item => item.EmployeeId == request.Id, cancellationToken)
             ?? throw new KeyNotFoundException("Employee not found.");

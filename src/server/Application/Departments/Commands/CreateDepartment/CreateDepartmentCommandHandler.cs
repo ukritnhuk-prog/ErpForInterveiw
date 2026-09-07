@@ -16,6 +16,8 @@ public sealed class CreateDepartmentCommandHandler : IRequestHandler<CreateDepar
 
     public async Task<DepartmentDto> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
     {
+        DepartmentRequestValidator.Validate(request.Data);
+
         var department = new Department
         {
             DepartmentName = request.Data.DepartmentName.Trim(),

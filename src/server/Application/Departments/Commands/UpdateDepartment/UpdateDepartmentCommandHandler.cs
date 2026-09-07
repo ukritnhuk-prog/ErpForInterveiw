@@ -15,6 +15,8 @@ public sealed class UpdateDepartmentCommandHandler : IRequestHandler<UpdateDepar
 
     public async Task<DepartmentDto> Handle(UpdateDepartmentCommand request, CancellationToken cancellationToken)
     {
+        DepartmentRequestValidator.Validate(request.Data);
+
         var department = await _context.Departments
             .SingleOrDefaultAsync(item => item.DepartmentId == request.Id, cancellationToken)
             ?? throw new KeyNotFoundException("Department not found.");

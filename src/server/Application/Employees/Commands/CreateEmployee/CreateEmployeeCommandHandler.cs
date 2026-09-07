@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
 using MediatR;
@@ -17,6 +17,8 @@ public sealed class CreateEmployeeCommandHandler : IRequestHandler<CreateEmploye
 
     public async Task<EmployeeDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
+        EmployeeRequestValidator.Validate(request.Data);
+
         if (!await _context.Departments.AnyAsync(
                 department => department.DepartmentId == request.Data.DepartmentId,
                 cancellationToken))

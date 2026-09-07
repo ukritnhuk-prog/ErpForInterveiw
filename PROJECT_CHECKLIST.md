@@ -33,7 +33,7 @@
 
 - [x] คง Domain / Application / Infrastructure / WebAPI
 - [x] แยก MediatR command/query และ handler ต่อ use case, ใช้ IApplicationDbContext และคง response envelope
-- [x] ใช้ DataAnnotations และ IValidatableObject; นำ AutoMapper/FluentValidation ที่ไม่ใช้แล้วออก
+- [x] แยก request validation ออกจาก model เป็น validator เฉพาะ และใช้ ValidationException กลางโดยไม่พึ่ง DataAnnotations
 - [x] Domain ไม่มี package dependencies ของ infrastructure
 - [x] เพิ่ม Department และ Employee พร้อม navigation properties
 - [x] DbSet ทั้งสองตาราง, required fields, max lengths, date types และ FK
@@ -174,5 +174,6 @@ Git history เดิมไม่อยู่ใน repository นี้แล�
 | 2026-09-06 | ปรับตามคำขอให้ใช้ Migration: ลบ SQL schema script และเก็บ EF migration/seed เดิมไว้; SQL constraint test เป็นชุดทดสอบเท่านั้น |
 | 2026-09-06 | Reinitialize Git บน `main` เพื่อเอา commit ของโปรเจกต์ต้นฉบับออก และตั้ง origin ไป repository ใหม่ |
 | 2026-09-07 | เปลี่ยน branding ทั้งระบบเป็น `ERP Demo` รวมถึง solution, package และฐานข้อมูล เพื่อไม่ใช้ชื่อบริษัทจริง |
+| 2026-09-07 | ย้าย validation ออกจาก request model ไปเป็น Employee/Department validator และทดสอบ API ครบ 46 checks |
 
 เปิด demo: http://localhost:4200 — Swagger: http://localhost:5028/swagger

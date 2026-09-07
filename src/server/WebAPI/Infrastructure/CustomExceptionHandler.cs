@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+using Application.Common.Exceptions;
 using Application.Common.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Data.SqlClient;
