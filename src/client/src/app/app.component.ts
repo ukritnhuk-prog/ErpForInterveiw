@@ -31,7 +31,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
       <div class="main-shell">
         <header class="topbar"><span>Employee & Department Management</span><span class="demo-pill">DEMO WORKSPACE</span></header>
         <main id="main-content" class="main-content"><router-outlet /></main>
-        <footer>ERP Demo · Technical interview project · Not an official company system</footer>
+        <footer>ERP Demo · Employee & Department Management · Technical interview project</footer>
       </div>
     </div>`
 })

@@ -79,7 +79,7 @@
 ## 5. Frontend
 
 - [x] Angular 20 และ ng-zorro เดิม พร้อม styles/forms/API patterns ที่นำมาปรับใช้
-- [x] Sidebar / header / footer ชื่อ ERP Demo
+- [x] Sidebar / header / footer ใช้ชื่อกลาง `ERP Demo`
 - [x] Routes สำหรับ Dashboard, Employees และ Departments
 - [x] โหลดแต่ละ page ตาม route เพื่อลด initial bundle
 - [x] Department table: ID, Name, Address, EmployeeCount, View/Edit/Delete
@@ -103,7 +103,7 @@
 - [x] Photo เป็น nullable field/path; ระบุชัดเจนว่ายังไม่เปิด upload
 - [x] ลบ Post/Comment code, sample WeatherForecast, seed/image URL และชื่อผู้ใช้ hard-coded เดิม
 - [x] ลบ runtime log เดิมที่เคยอยู่ใน Git
-- [x] เปลี่ยน package/display name และ solution เป็น ERP.Demo.sln
+- [x] เปลี่ยน package/display name และ solution เป็น `ERP.Demo.sln`
 - [x] นำรหัสผ่าน hard-coded ออกจาก source/config/README ปัจจุบัน
 - [x] ใช้ Windows Authentication; README อธิบาย override connection string ด้วย environment
 - [x] ค้น source/scripts ปัจจุบัน ไม่พบชื่อระบบเดิม/รหัสผ่านเดิม/production endpoint ตามแพตเทิร์นที่ตรวจ
@@ -160,7 +160,7 @@ API script ปกติรายงาน 46 checks; รอบตรวจ 47 ch
 - [ ] Server-side pagination — ใช้ browser pagination สำหรับข้อมูล demo ขนาดเล็ก
 - [ ] ทดสอบ remote SQL Server และ browsers อื่น — ไม่ใช่สภาพแวดล้อมที่ตรวจรอบนี้
 
-Git history เดิมไม่อยู่ใน repository นี้แล้ว โดยสำรอง metadata เดิมไว้นอก workspace ที่ `outside the project workspace` เพื่อให้กู้คืนได้หากจำเป็น
+Git history เดิมไม่อยู่ใน repository นี้แล้ว โดยสำรอง metadata เดิมไว้นอก workspace เพื่อให้กู้คืนได้หากจำเป็น
 
 ## บันทึกการทำงาน
 
@@ -173,5 +173,6 @@ Git history เดิมไม่อยู่ใน repository นี้แล�
 | 2026-09-06 | อัปเดต README, checklist และสรุปไฟล์ส่งมอบ |
 | 2026-09-06 | ปรับตามคำขอให้ใช้ Migration: ลบ SQL schema script และเก็บ EF migration/seed เดิมไว้; SQL constraint test เป็นชุดทดสอบเท่านั้น |
 | 2026-09-06 | Reinitialize Git บน `main` เพื่อเอา commit ของโปรเจกต์ต้นฉบับออก และตั้ง origin ไป repository ใหม่ |
+| 2026-09-07 | เปลี่ยน branding ทั้งระบบเป็น `ERP Demo` รวมถึง solution, package และฐานข้อมูล เพื่อไม่ใช้ชื่อบริษัทจริง |
 
 เปิด demo: http://localhost:4200 — Swagger: http://localhost:5028/swagger

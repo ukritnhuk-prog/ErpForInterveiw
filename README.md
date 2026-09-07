@@ -230,6 +230,6 @@ Detailed progress and verified results: [PROJECT_CHECKLIST.md](PROJECT_CHECKLIST
 
 Photo upload and authentication are not implemented. Pagination is in the browser for this small demo; the API returns the matching list. No accounting, inventory or other ERP modules were added.
 
-`origin` is configured to `https://github.com/ukritnhuk-prog/ErpForInterveiw.git`. This copied project was reinitialized on the `main` branch so the previous project's commits are not part of this repository. A recoverable copy of the previous Git metadata is stored outside the project directory at `outside the project workspace`.
+`origin` is configured to `https://github.com/ukritnhuk-prog/ErpForInterveiw.git`. This copied project was reinitialized on the `main` branch so the previous project's commits are not part of this repository. A recoverable copy of the previous Git metadata is stored outside the project directory.
 
 Original brief: [ERP_REQUIREMENTS.md](ERP_REQUIREMENTS.md).

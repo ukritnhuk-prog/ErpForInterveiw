@@ -2,7 +2,7 @@
 SET NOCOUNT ON;
 SET XACT_ABORT OFF;
 IF DB_NAME() NOT LIKE 'ErpDemo%'
-    THROW 51000, 'Use a ErpDemo database for this test.', 1;
+    THROW 51000, 'Use an ErpDemo database for this test.', 1;
 IF NOT EXISTS (SELECT 1 FROM Employees WHERE Employee_ID = 1 AND Department_ID = 1)
     THROW 51000, 'The default demo seed is required for these constraint tests.', 1;
 BEGIN TRANSACTION;

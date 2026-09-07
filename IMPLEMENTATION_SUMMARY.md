@@ -45,7 +45,7 @@
 - `origin`: `https://github.com/ukritnhuk-prog/ErpForInterveiw.git`
 - Reinitialize เป็น repository ใหม่บน branch `main`; commit ของโปรเจกต์ต้นฉบับไม่อยู่ใน history ใหม่
 - ตั้งทั้ง fetch/push URL ไป repository ใหม่ผ่าน config เดียวกัน
-- สำรอง Git metadata เดิมไว้นอก workspace ที่ `outside the project workspace`
+- สำรอง Git metadata เดิมไว้นอก workspace
 - `.git/config` เป็น local metadata จึงไม่รวมในรายการไฟล์ด้านล่าง
 
 ## Known limitations

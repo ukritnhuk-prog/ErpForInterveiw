@@ -1,7 +1,7 @@
 You are a senior ASP.NET Core / C# developer.
 
 I already have an existing project that was previously built for another company.
-I want to reuse that project as the base for a technical test / demo project for an ERP Developer position at the target company.
+I want to reuse that project as the base for a technical test / demo project for an ERP Developer position.
 
 The goal is NOT to rebuild the whole project from scratch.
 
@@ -10,7 +10,7 @@ Your job is to:
 2. Understand its current architecture and implementation.
 3. Reuse as much existing code, UI, structure, components, utilities, and CRUD patterns as reasonably possible.
 4. Remove or replace all company-specific references from the previous project.
-5. Convert the project into a small ERP-style Employee and Department Management System for the target company.
+5. Convert the project into a small ERP-style Employee and Department Management System.
 6. Keep the implementation simple, clean, maintainable, and suitable for a technical interview/demo.
 7. Avoid over-engineering.
 
@@ -691,7 +691,7 @@ Search across the entire codebase for:
 - Previous environment settings
 - Previous organization identifiers
 
-Replace with generic or generic ERP demo names where appropriate.
+Replace with generic ERP demo names where appropriate.
 
 Suggested application title:
 
