@@ -20,8 +20,15 @@ public sealed class DeleteDepartmentCommandHandler : IRequestHandler<DeleteDepar
             .SingleOrDefaultAsync(item => item.DepartmentId == request.Id, cancellationToken)
             ?? throw new KeyNotFoundException("Department not found.");
 
-        if (await _context.Employees.AnyAsync(employee => employee.DepartmentId == request.Id, cancellationToken))
-            throw new ValidationException("Cannot delete this department because employees are currently assigned to it.");
+        var hasEmployees = await _context.Employees.AnyAsync(
+            employee => employee.DepartmentId == request.Id,
+            cancellationToken);
+
+        if (hasEmployees)
+        {
+            throw new ValidationException(
+                "Cannot delete this department because employees are currently assigned to it.");
+        }
 
         _context.Departments.Remove(department);
         await _context.SaveChangesAsync(cancellationToken);

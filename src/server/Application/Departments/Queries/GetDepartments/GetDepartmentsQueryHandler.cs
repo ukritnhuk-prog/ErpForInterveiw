@@ -16,7 +16,14 @@ public sealed class GetDepartmentsQueryHandler : IRequestHandler<GetDepartmentsQ
 
     public Task<List<DepartmentResponse>> Handle(
         GetDepartmentsQuery request,
-        CancellationToken cancellationToken) =>
-        DepartmentProjection.ToResponse(_context.Departments.AsNoTracking().OrderBy(department => department.DepartmentName))
+        CancellationToken cancellationToken)
+    {
+        var departments = _context.Departments
+            .AsNoTracking()
+            .OrderBy(department => department.DepartmentName);
+
+        return DepartmentProjection
+            .ToResponse(departments)
             .ToListAsync(cancellationToken);
+    }
 }

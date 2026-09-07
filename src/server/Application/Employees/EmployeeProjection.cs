@@ -1,5 +1,5 @@
-using Domain.Entities;
 using Application.Employees.Models;
+using Domain.Entities;
 
 namespace Application.Employees;
 

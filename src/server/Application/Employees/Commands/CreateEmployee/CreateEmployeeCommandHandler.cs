@@ -20,10 +20,14 @@ public sealed class CreateEmployeeCommandHandler : IRequestHandler<CreateEmploye
     {
         EmployeeRequestValidator.Validate(request.Data);
 
-        if (!await _context.Departments.AnyAsync(
-                department => department.DepartmentId == request.Data.DepartmentId,
-                cancellationToken))
+        var departmentExists = await _context.Departments.AnyAsync(
+            department => department.DepartmentId == request.Data.DepartmentId,
+            cancellationToken);
+
+        if (!departmentExists)
+        {
             throw new ValidationException("The selected department does not exist.");
+        }
 
         var employee = new Employee();
         Apply(request.Data, employee);

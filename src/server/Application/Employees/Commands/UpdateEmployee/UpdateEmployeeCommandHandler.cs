@@ -23,10 +23,14 @@ public sealed class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmploye
             .SingleOrDefaultAsync(item => item.EmployeeId == request.Id, cancellationToken)
             ?? throw new KeyNotFoundException("Employee not found.");
 
-        if (!await _context.Departments.AnyAsync(
-                department => department.DepartmentId == request.Data.DepartmentId,
-                cancellationToken))
+        var departmentExists = await _context.Departments.AnyAsync(
+            department => department.DepartmentId == request.Data.DepartmentId,
+            cancellationToken);
+
+        if (!departmentExists)
+        {
             throw new ValidationException("The selected department does not exist.");
+        }
 
         employee.DepartmentId = request.Data.DepartmentId;
         employee.FirstName = request.Data.FirstName.Trim();

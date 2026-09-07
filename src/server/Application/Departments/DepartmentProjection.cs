@@ -1,5 +1,5 @@
-using Domain.Entities;
 using Application.Departments.Models;
+using Domain.Entities;
 
 namespace Application.Departments;
 

@@ -8,27 +8,52 @@ internal static class DemoData
 {
     internal static void Configure(ModelBuilder modelBuilder)
     {
-        string[] names = ["Information Technology", "Human Resources", "Accounting & Finance", "Production",
-            "Quality Assurance", "Warehouse", "Procurement", "Sales & Export"];
-        string[] addresses = ["Head Office", "Head Office", "Head Office", "Factory Building A",
-            "Factory Building B", "Warehouse Zone A", "Head Office", "Head Office"];
-        modelBuilder.Entity<Department>().HasData(names.Select((name, i) => new Department
+        var departments = new (string Name, string Address)[]
         {
-            DepartmentId = i + 1, DepartmentName = name, DepartmentAddress = addresses[i]
-        }));
+            ("Information Technology", "Head Office"),
+            ("Human Resources", "Head Office"),
+            ("Accounting & Finance", "Head Office"),
+            ("Production", "Factory Building A"),
+            ("Quality Assurance", "Factory Building B"),
+            ("Warehouse", "Warehouse Zone A"),
+            ("Procurement", "Head Office"),
+            ("Sales & Export", "Head Office")
+        };
 
-        string[] first = ["Somchai", "Anan", "Nattaya", "Pimchanok", "Kittipong",
-            "Sudarat", "Thanawat", "Jirawat", "Waranya", "Pattarapong"];
-        string[] last = ["Jaidee", "Chaisuk", "Deeprasert", "Kanjana", "Arun",
-            "Meechai", "Wongsa", "Intara", "Saelim", "Bunmee"];
-        int[] departments = [1, 4, 2, 3, 6, 5, 7, 8, 4, 1];
-        string[] genders = ["Male", "Male", "Female", "Female", "Male", "Female", "Male", "Male", "Female", "Male"];
-        modelBuilder.Entity<Employee>().HasData(first.Select((name, i) => new Employee
+        modelBuilder.Entity<Department>().HasData(
+            departments.Select((department, index) => new Department
+            {
+                DepartmentId = index + 1,
+                DepartmentName = department.Name,
+                DepartmentAddress = department.Address
+            }));
+
+        var employees = new (int DepartmentId, string FirstName, string LastName, string Gender)[]
         {
-            EmployeeId = i + 1, DepartmentId = departments[i], FirstName = name, LastName = last[i],
-            Gender = genders[i], DateOfBirth = new DateOnly(1990 + i, i + 1, 10),
-            DateJoined = new DateOnly(2024, i + 1, 15), EmployeeAddress = $"Demo address {i + 1}, Bangkok",
-            Photo = null
-        }));
+            (1, "Somchai", "Jaidee", "Male"),
+            (4, "Anan", "Chaisuk", "Male"),
+            (2, "Nattaya", "Deeprasert", "Female"),
+            (3, "Pimchanok", "Kanjana", "Female"),
+            (6, "Kittipong", "Arun", "Male"),
+            (5, "Sudarat", "Meechai", "Female"),
+            (7, "Thanawat", "Wongsa", "Male"),
+            (8, "Jirawat", "Intara", "Male"),
+            (4, "Waranya", "Saelim", "Female"),
+            (1, "Pattarapong", "Bunmee", "Male")
+        };
+
+        modelBuilder.Entity<Employee>().HasData(
+            employees.Select((employee, index) => new Employee
+            {
+                EmployeeId = index + 1,
+                DepartmentId = employee.DepartmentId,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Gender = employee.Gender,
+                DateOfBirth = new DateOnly(1990 + index, index + 1, 10),
+                DateJoined = new DateOnly(2024, index + 1, 15),
+                EmployeeAddress = $"Demo address {index + 1}, Bangkok",
+                Photo = null
+            }));
     }
 }

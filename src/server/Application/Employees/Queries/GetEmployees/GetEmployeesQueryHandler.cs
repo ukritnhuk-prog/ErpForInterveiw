@@ -30,7 +30,9 @@ public sealed class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery
         }
 
         if (request.DepartmentId.HasValue)
+        {
             query = query.Where(employee => employee.DepartmentId == request.DepartmentId.Value);
+        }
 
         query = query
             .OrderBy(employee => employee.FirstName)

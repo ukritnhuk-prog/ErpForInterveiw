@@ -16,26 +16,53 @@ namespace WebAPI.Controllers;
 public class EmployeesController(ISender sender, ILogger<EmployeesController> logger) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<Response<List<EmployeeResponse>>>> Get([FromQuery] string? search, [FromQuery] int? departmentId, CancellationToken cancellationToken) =>
-        Ok(Response<List<EmployeeResponse>>.Success(await sender.Send(new GetEmployeesQuery(search, departmentId), cancellationToken)));
+    public async Task<ActionResult<Response<List<EmployeeResponse>>>> Get(
+        [FromQuery] string? search,
+        [FromQuery] int? departmentId,
+        CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(
+            new GetEmployeesQuery(search, departmentId),
+            cancellationToken);
+
+        return Ok(Response<List<EmployeeResponse>>.Success(result));
+    }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Response<EmployeeResponse>>> GetById(int id, CancellationToken cancellationToken) =>
-        Ok(Response<EmployeeResponse>.Success(await sender.Send(new GetEmployeeQuery(id), cancellationToken)));
+    public async Task<ActionResult<Response<EmployeeResponse>>> GetById(
+        int id,
+        CancellationToken cancellationToken)
+    {
+        var result = await sender.Send(new GetEmployeeQuery(id), cancellationToken);
+
+        return Ok(Response<EmployeeResponse>.Success(result));
+    }
 
     [HttpPost]
-    public async Task<ActionResult<Response<EmployeeResponse>>> Create(EmployeeRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<Response<EmployeeResponse>>> Create(
+        EmployeeRequest request,
+        CancellationToken cancellationToken)
     {
         var result = await sender.Send(new CreateEmployeeCommand(request), cancellationToken);
+
         logger.LogInformation("Employee {Id} created", result.EmployeeId);
-        return CreatedAtAction(nameof(GetById), new { id = result.EmployeeId }, Response<EmployeeResponse>.Success(result));
+
+        return CreatedAtAction(
+            nameof(GetById),
+            new { id = result.EmployeeId },
+            Response<EmployeeResponse>.Success(result));
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<Response<EmployeeResponse>>> Update(int id, EmployeeRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<Response<EmployeeResponse>>> Update(
+        int id,
+        EmployeeRequest request,
+        CancellationToken cancellationToken)
     {
         var result = await sender.Send(new UpdateEmployeeCommand(id, request), cancellationToken);
+
         logger.LogInformation("Employee {Id} updated", id);
+
         return Ok(Response<EmployeeResponse>.Success(result));
     }
 
@@ -43,7 +70,9 @@ public class EmployeesController(ISender sender, ILogger<EmployeesController> lo
     public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         await sender.Send(new DeleteEmployeeCommand(id), cancellationToken);
+
         logger.LogInformation("Employee {Id} deleted", id);
+
         return NoContent();
     }
 }
